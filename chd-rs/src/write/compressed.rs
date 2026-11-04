@@ -222,6 +222,10 @@ impl HunkCompressor {
 
     /// Compress a hunk with codec that returns the smallest result.
     ///
+    /// When CD FLAC is configured with other codecs, it is not tried on a hunk whose every
+    /// frame starts with the data-sector sync header. Unlike chdman, such a hunk is stored
+    /// with another codec even if FLAC would compress it smaller.
+    ///
     /// The provided buffer must be exactly the hunk size, otherwise returns [`InvalidParameter`](Error::InvalidParameter).
     pub fn compress<'a>(&mut self, hunk: &'a [u8]) -> Result<CompressedHunk<'a>> {
         if hunk.len() != self.hunk_bytes as usize {
