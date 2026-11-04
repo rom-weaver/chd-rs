@@ -183,6 +183,10 @@ impl ChdWriteOptions {
     ///
     /// To disable compression, pass in the empty slice. This function
     /// accepts up to 4 compression codecs in a slice.
+    ///
+    /// Each hunk is stored with the codec that compresses it smallest, except that CD FLAC
+    /// is not tried on data-sector hunks when other codecs are configured; see
+    /// [`HunkCompressor::compress`].
     pub fn compression(mut self, compression: impl ChdWriteCodecs) -> Self {
         self.compression_codecs = compression.into_array_vec();
         self
